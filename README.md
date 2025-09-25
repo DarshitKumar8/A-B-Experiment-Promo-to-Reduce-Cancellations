@@ -45,8 +45,7 @@ This project demonstrates an end-to-end A/B test designed to reduce 7-day cancel
 
 ## Files
 - `AB_Test.ipynb` — Jupyter notebook with full analysis
-- `AB_Test_.pdf`
-- `screenshot.png` — Visualization of control vs treatment cancellation rates
+- `Control_vs_Treatment.png` — Visualization of control vs treatment cancellation rates
 
 ## Key Results
 - Absolute reduction in cancellations: 2.82 pp
