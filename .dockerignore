@@ -1,0 +1,17 @@
+# big installers / binaries
+Docker Desktop Installer.exe
+
+# local env / caches / git
+.venv/
+__pycache__/
+.git/
+.gitignore
+
+# notebooks & images (not needed to serve the API)
+*.ipynb
+*.png
+*.pdf
+
+# data not needed at runtime (keep metrics.json)
+sim_ab_data.csv
+run_ab_test.py
