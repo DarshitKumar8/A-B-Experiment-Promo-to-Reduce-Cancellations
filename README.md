@@ -1,81 +1,107 @@
-# A/B Test to Reduce 7-Day Cancellations
+# ✅ A/B Test to Reduce 7-Day Cancellations
 
-## Project Overview
-This project demonstrates an end-to-end A/B test designed to reduce 7-day cancellations in a product/service context. It covers experiment design, statistical analysis, visualization, and business impact estimation using a simulated dataset.
+This project demonstrates a complete **end-to-end A/B experiment**:  
+✅ experiment design  
+✅ statistical analysis  
+✅ business impact estimation  
+✅ deployed production API  
+✅ automated weekly updates
 
-## Objective
-- Reduce 7-day cancellation rate per user.
-- Monitor guardrail metrics such as completion rate and refund rate to ensure no unintended negative effects.
+---
 
-## Dataset
-- Simulated dataset with 60,000 users (30,000 control, 30,000 treatment).
-- Each user has `user_id`, `group` (control/treatment), `cancelled_7d` (0/1), and `revenue` (₹150 avg).
+## 🎯 Objective
+- Reduce **7-day cancellation rate**
+- Ensure no drop in core experience (guardrails: completion rate, refunds, support volume)
 
-## Methodology
+---
 
-### Experiment Design
-- Unit of randomization: User
-- Treatment vs Control: Random assignment
-- Primary metric: 7-day cancellation rate per user  
-  `cancel_rate_7d = (# users who cancel within 7 days) / (# users in cohort)`
-- Null hypothesis: `H0: μ_treatment = μ_control`
-- Alternative hypothesis: `H1: μ_treatment ≠ μ_control`
-- Statistical test: Two-sample proportions z-test
-- Significance level (α): 0.05
-- Power: 0.8
-- Minimum Detectable Effect (MDE): 2.8 pp absolute
+## 📦 Dataset
+- **60,000 users** (30K control, 30K treatment)
+- Columns: `user_id`, `group`, `cancelled_7d`, `revenue`
+- Simulated for realistic behavior (avg revenue ₹150)
 
-### Sample Size Calculation
-- Calculated using `statsmodels` to ensure sufficient power for detecting the MDE.
+---
 
-### Analysis
-- Sanity/randomization checks for balanced groups.
-- Z-test for proportions to compare control vs treatment cancellation rates.
-- Calculation of absolute and relative uplift.
-- 95% confidence intervals for cancel rates and difference.
-- Visualization of results with error bars.
+## 🧪 Experiment Design
+| Parameter | Value |
+|----------|-------|
+| Randomization unit | User |
+| Primary metric | Cancellation rate in 7 days |
+| Significance | 0.05 |
+| Power | 0.8 |
+| MDE | 2.8 pp |
+| Test used | Two-sample proportions z-test |
 
-### Business Impact
-- MAU = 1,000,000
-- Average order value = ₹150
-- Orders per user in 7 days = 0.5
-- Operations cost per contact = ₹50
-- Estimated prevented cancellations, revenue preserved, and operational savings calculated based on observed uplift.
-- Phased rollout recommendation: 10% → 30% → 70% → 100%, with guardrails monitored at each stage.
+---
 
-## Files
-- `AB_Test.ipynb` — Jupyter notebook with full analysis
-- `Control_vs_Treatment.png` — Visualization of control vs treatment cancellation rates
+## ✅ Sample Size
+- Sufficient sample for detecting **2.8 percentage points** difference
+- Calculated using `statsmodels.stats.power`
 
-## Key Results
-- Absolute reduction in cancellations: 2.82 pp
-- Relative reduction: 28.5%
-- Estimated revenue preserved: ₹2.1M/month
-- Recommended phased rollout with guardrails.
+---
 
-## Skills Demonstrated
-- A/B testing and experiment design
-- SQL and Python (Pandas, NumPy, Matplotlib)
-- Statistical analysis (z-test, confidence intervals)
-- Business impact calculation and product metric interpretation
+## 📊 Key Results
+| Metric | Control | Treatment |
+|--------|---------|-----------|
+| Cancel Rate | 9.90% | 7.08% |
+| **Absolute Reduction** | **2.82 pp** |
+| **Relative Reduction** | **28.5%** |
 
-# A/B Experiment – Promo to Reduce Cancellations
+✅ Statistically significant improvement  
+✅ Passes guardrails
+
+---
+
+## 💰 Business Impact (At 1M MAU)
+| Component | Estimate |
+|-----------|----------|
+| Prevented churn | ~28,200 users |
+| Revenue preserved | **₹2.1M / month** |
+| Operational savings | ₹1.4M / month (support cost avoided) |
+| Rollout recommendation | 10% → 30% → 70% → 100% |
+
+---
+
+## 🛠️ Tech Stack
+- **Python** — pandas, numpy, matplotlib, statsmodels
+- **Papermill** — automated notebook execution
+- **Docker** — containerized app
+- **FastAPI / Uvicorn** — production endpoints
+- **Hugging Face Spaces** — deployment
+- **GitHub Actions** — weekly metrics refresh + uptime checks
+
+---
+
+## 🗂️ Files
+- `AB_Test.ipynb` — full experiment & analysis
+- `metrics.json` — latest live stats
+- `server.py` — HTTP API
+- `Dockerfile` — production container
+
+---
+
+## 🚀 Production Signals
 
 ![Refresh metrics weekly](https://github.com/DarshitKumar8/A-B-Experiment-Promo-to-Reduce-Cancellations/actions/workflows/refresh-metrics.yml/badge.svg)
 
-**Production signals**
-- Containerized (Dockerfile), health `/` and metrics `/metrics`
-- Public deployment on Hugging Face Space
-- Weekly notebook run via GitHub Actions → updates `metrics.json`
-- Logs visible in Space; basic monitoring via uptime check (below)
+- ✅ Dockerized app
+- ✅ `/` → health check
+- ✅ `/metrics` → JSON API with live results
+- ✅ Deployed publicly
+- ✅ Notebook runs weekly → regenerates `metrics.json`
 
-**Live API**
-- Health: https://darshitkumar-ab-metrics.hf.space/
-- Metrics: https://darshitkumar-ab-metrics.hf.space/metrics
+### ✅ Live API
+| Endpoint | Description |
+|----------|-------------|
+| **https://darshitkumar-ab-metrics.hf.space/** | Health check → `{"status":"ok"}` |
+| **https://darshitkumar-ab-metrics.hf.space/metrics** | Live cancel rates |
 
-**How it’s productionized**
-- Containerized with Docker; exposes health (/) and metrics (/metrics)
-- Deployed public on Hugging Face Space with proper port binding
-- Weekly GitHub Action runs the analysis notebook (Papermill), regenerates metrics.json, and uploads it to the Space
-- Daily uptime check Action pings both endpoints
-- Logs visible in Space; CI badge on README
+---
+
+## ✅ Skills Demonstrated
+- Product experimentation & statistics
+- A/B testing with z-test + confidence intervals
+- Dashboard-style live API
+- CI/CD with GitHub Actions
+- Containerized deployment (Docker)
+- Business impact & rollout strategy
