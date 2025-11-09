@@ -89,6 +89,6 @@ Every Monday at 03:00 UTC:
 ---
 
 ## ✅ Verification
-curl https://darshitkumar-ab-metrics.hf.space/
-curl https://darshitkumar-ab-metrics.hf.space/metrics
+- curl https://darshitkumar-ab-metrics.hf.space/
+- curl https://darshitkumar-ab-metrics.hf.space/metrics
 ---
