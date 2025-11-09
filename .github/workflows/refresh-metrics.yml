@@ -2,8 +2,8 @@ name: Refresh metrics weekly
 
 on:
   schedule:
-    - cron: "0 3 * * 1"   # Every Monday 03:00 UTC
-  workflow_dispatch:       # Allow manual run
+    - cron: "0 3 * * 1"
+  workflow_dispatch:
 
 jobs:
   refresh:
@@ -22,18 +22,41 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install papermill huggingface_hub
+          pip install papermill ipykernel huggingface_hub
+
+      - name: Show repo files (debug)
+        run: |
+          ls -la
+          echo "-----"
+          if [ -f AB_Test.ipynb ]; then echo "Found AB_Test.ipynb"; else echo "MISSING AB_Test.ipynb" && exit 1; fi
 
       - name: Run notebook with Papermill (regenerates metrics.json)
         run: |
           python - << 'PY'
           import papermill as pm
           pm.execute_notebook(
-              'AB_Test.ipynb',        # input notebook in repo
-              'AB_Test_Output.ipynb'  # output after execution
+              'AB_Test.ipynb',
+              'AB_Test_Output.ipynb'
           )
-          print("✅ Notebook executed and AB_Test_Output.ipynb written")
+          print("✅ Notebook executed")
           PY
+
+      - name: Verify metrics.json exists (debug)
+        run: |
+          if [ -f metrics.json ]; then
+            echo "✅ metrics.json present:"
+            cat metrics.json
+          else
+            echo "❌ metrics.json not found after notebook run"
+            exit 1
+          fi
+
+      - name: Fail clearly if HF_TOKEN not set
+        run: |
+          if [ -z "${{ secrets.HF_TOKEN }}" ]; then
+            echo "❌ GitHub secret HF_TOKEN is missing."
+            exit 1
+          fi
 
       - name: Publish metrics.json to Hugging Face Space
         env:
@@ -41,17 +64,17 @@ jobs:
         run: |
           python - << 'PY'
           import os
-          from huggingface_hub import HfApi, HfFolder
-          HF_SPACE = "spaces/darshitkumar/ab-metrics"   # your Space
-          token = os.environ["HF_TOKEN"]
-          HfFolder.save_token(token)
+          from huggingface_hub import HfApi
+          token = os.environ.get("HF_TOKEN")
+          if not token:
+              raise SystemExit("HF_TOKEN env var missing")
           api = HfApi()
-          # Upload/overwrite metrics.json at Space root
           api.upload_file(
               path_or_fileobj="metrics.json",
               path_in_repo="metrics.json",
-              repo_id=HF_SPACE,
-              repo_type="space"
+              repo_id="spaces/darshitkumar/ab-metrics",
+              repo_type="space",
+              token=token
           )
           print("✅ Uploaded metrics.json to Space")
           PY
