@@ -4,3 +4,4 @@ papermill
 pandas
 numpy
 statsmodels
+matplotlib
