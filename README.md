@@ -72,3 +72,10 @@ This project demonstrates an end-to-end A/B test designed to reduce 7-day cancel
 **Live API**
 - Health: https://darshitkumar-ab-metrics.hf.space/
 - Metrics: https://darshitkumar-ab-metrics.hf.space/metrics
+
+**How it’s productionized**
+- Containerized with Docker; exposes health (/) and metrics (/metrics)
+- Deployed public on Hugging Face Space with proper port binding
+- Weekly GitHub Action runs the analysis notebook (Papermill), regenerates metrics.json, and uploads it to the Space
+- Daily uptime check Action pings both endpoints
+- Logs visible in Space; CI badge on README
