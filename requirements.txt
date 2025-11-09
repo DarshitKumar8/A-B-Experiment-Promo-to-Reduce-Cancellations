@@ -5,3 +5,4 @@ pandas
 numpy
 statsmodels
 matplotlib
+huggingface_hub>=0.23
