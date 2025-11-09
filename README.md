@@ -58,3 +58,17 @@ This project demonstrates an end-to-end A/B test designed to reduce 7-day cancel
 - SQL and Python (Pandas, NumPy, Matplotlib)
 - Statistical analysis (z-test, confidence intervals)
 - Business impact calculation and product metric interpretation
+
+# A/B Experiment – Promo to Reduce Cancellations
+
+![Refresh metrics weekly](https://github.com/DarshitKumar8/A-B-Experiment-Promo-to-Reduce-Cancellations/actions/workflows/refresh-metrics.yml/badge.svg)
+
+**Production signals**
+- Containerized (Dockerfile), health `/` and metrics `/metrics`
+- Public deployment on Hugging Face Space
+- Weekly notebook run via GitHub Actions → updates `metrics.json`
+- Logs visible in Space; basic monitoring via uptime check (below)
+
+**Live API**
+- Health: https://darshitkumar-ab-metrics.hf.space/
+- Metrics: https://darshitkumar-ab-metrics.hf.space/metrics
