@@ -70,11 +70,12 @@ jobs:
               raise SystemExit("HF_TOKEN env var missing")
           api = HfApi()
           api.upload_file(
-              path_or_fileobj="metrics.json",
-              path_in_repo="metrics.json",
-              repo_id="spaces/darshitkumar/ab-metrics",
-              repo_type="space",
-              token=token
+          path_or_fileobj="metrics.json",
+          path_in_repo="metrics.json",
+          -   repo_id="spaces/darshitkumar/ab-metrics",
+          +   repo_id="darshitkumar/ab-metrics",
+          repo_type="space",
+          token=token
           )
           print("✅ Uploaded metrics.json to Space")
           PY
